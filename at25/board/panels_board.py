@@ -43,6 +43,8 @@ class Board:
             print(inst.args)
             exit(1)
 
+        self.board = state
+
     def display_board(self):
         def _cell_to_str(val):
             if val == WALL:
@@ -73,7 +75,7 @@ class Board:
                 raise Exception(f"invalid index ({i}, {j})")
             self.board[i, j] = player
             self.display_board()
-
+            self.history.append(deepcopy(self.board))
             np.savetxt(
                 os.path.join(self.savedir, f"at25_{self.game_id}_{len(self.history)}.csv"),
                 self.board,
@@ -128,6 +130,9 @@ class Board:
     def to_flip_panels(self, i, j, player):
         return self.to_get_select(i, j, player)[0]
 
+    def set_at_chance(self, i, j):
+        self.board[i,j] = CHANCE
+        
     def selectable_panels(self, player):
         if player not in self.player_ids:
             print("invalid player:", player)
@@ -197,6 +202,6 @@ class Board:
         res = list()
         for p in self.player_ids:
             indices = np.where(self.board == p)
-        for i, j in zip(indices[0], indices[1]):
-            res.append((i, j))
+            for i, j in zip(indices[0], indices[1]):
+                res.append((i, j))
         return res
