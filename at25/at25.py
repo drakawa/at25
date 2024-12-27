@@ -4,7 +4,7 @@ from copy import deepcopy
 import random
 
 from load_conf import load_conf_yaml
-from board.defined_panel import EMPTY, WALL, FIRST, CHANCE, EMPTYS
+from board.defined_panel import EMPTY, WALL, FIRST, CHANCE, EMPTYS, DEALER
 from board.panels_board import Board
 
 class Attack25:
@@ -43,20 +43,28 @@ class Attack25:
             exit(1)
 
     def main(self):
+        after_at_chance = False
         while True:
             self.board.display_board()
             if self.board.is_atchance():
                 print("アタックチャンス!")
             try:
                 player = int(input("正解したプレイヤー: "))
+                if player == DEALER:
+                    print("ゲーム終了")
+                    exit(1)
                 if player not in self.player_ids:
                     print("存在しないプレイヤー:", player)
                     continue
+                    
             except (ValueError):
                 print("正しい形式で入力してください（例: 2）")
                 continue
             # 入力
             while True:
+                if after_at_chance:
+                    after_at_chance = False
+                    break
                 try:
                     selectables = self.board.selectable_panels(player)
                     print_selectables = [(int(i), int(j)) for i, j in selectables]
@@ -77,7 +85,7 @@ class Attack25:
                     self.board.flip_panel(i, j, player)
                     while True:
                         try:
-                            selectables = self.board.players_panels(player)
+                            selectables = self.board.players_panels()
                             print_selectables = [(int(i), int(j)) for i, j in selectables]
                             print("狙い目にできるパネル:", list(sorted(print_selectables)))
                             i, j = map(int, input("行,列を入力（0-4, 例: 2 3）: ").split())
@@ -87,6 +95,9 @@ class Attack25:
                         except (ValueError, IndexError):
                             print("正しい形式で入力してください（例: 2 3）")
                             continue
+                        self.board.set_at_chance(i, j)
+                        after_at_chance = True
+                        break
 
 
 if __name__ == "__main__":
@@ -94,7 +105,7 @@ if __name__ == "__main__":
     savedir = "csvs"
 
     game = Attack25(conf, savedir)
-
+    game.board.load_state("csvs/at25_55876_23.csv")
     game.main()
     # csvfile = "init_3x3.csv"
     # n_players = 2
