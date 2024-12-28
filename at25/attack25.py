@@ -44,6 +44,34 @@ class Attack25:
             print("invalid_shape")
             exit(1)
 
+    def get_player_names(self):
+        return self.player_names
+    def get_player_colors(self):
+        return self.player_colors
+    def get_player_ids(self):
+        return self.player_ids
+    def get_n_players(self):
+        return self.n_players
+    def get_n_row(self):
+        return self.board.len_row
+    def get_n_col(self):
+        return self.board.len_col
+    def coord_to_panel_idx(self, i, j):
+        return i * self.board.len_col + j
+    def panel_idx_to_coord(self, idx):
+        i = idx // self.board.len_col
+        j = idx % self.board.len_col
+        return i, j
+    def get_selectable_panels(self, player):
+        selectable_coords = self.board.selectable_panels(player)
+        return [self.coord_to_panel_idx(i, j) for i, j in selectable_coords]
+    def is_atchance(self):
+        return self.board.is_atchance()
+    def to_get_panels(self, idx, player):
+        i, j = self.panel_idx_to_coord(idx)
+        to_get_panel_coords = self.board.flip_panel(i, j, player)
+        return [self.coord_to_panel_idx(m, n) for m, n in to_get_panel_coords]
+    
     def myinput(self, message: str):
         res = input(message)
         inputs_path = os.path.join(self.savedir, f"inputs_{self.game_id}.txt")
@@ -76,7 +104,7 @@ class Attack25:
                     break
                 try:
                     selectables = self.board.selectable_panels(player)
-                    print_selectables = [(int(i), int(j)) for i, j in selectables]
+                    print_selectables = [(i, j) for i, j in selectables]
                     print("選択可能なパネル:", list(sorted(print_selectables)))
                     i, j = map(int, self.myinput("行,列を入力（0-4, 例: 2 3）: ").split())
                     if (i, j) not in selectables:
