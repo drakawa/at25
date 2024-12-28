@@ -3,9 +3,11 @@ import numpy as np
 from copy import deepcopy
 import random
 
-from load_conf import load_conf_yaml
-from board.defined_panel import EMPTY, WALL, FIRST, CHANCE, EMPTYS, DEALER
-from board.panels_board import Board
+from at25.load_conf import load_conf_yaml
+from at25.board import EMPTY, WALL, FIRST, CHANCE, EMPTYS, DEALER
+from at25.board import Board
+
+import os
 
 class Attack25:
     def __init__(self,
@@ -42,6 +44,13 @@ class Attack25:
             print("invalid_shape")
             exit(1)
 
+    def myinput(self, message: str):
+        res = input(message)
+        inputs_path = os.path.join(self.savedir, f"inputs_{self.game_id}.txt")
+        with open(inputs_path, "a") as f:
+            f.write(res + "\n")
+        return res
+    
     def main(self):
         after_at_chance = False
         while True:
@@ -49,7 +58,7 @@ class Attack25:
             if self.board.is_atchance():
                 print("アタックチャンス!")
             try:
-                player = int(input("正解したプレイヤー: "))
+                player = int(self.myinput("正解したプレイヤー: "))
                 if player == DEALER:
                     print("ゲーム終了")
                     exit(1)
@@ -69,7 +78,7 @@ class Attack25:
                     selectables = self.board.selectable_panels(player)
                     print_selectables = [(int(i), int(j)) for i, j in selectables]
                     print("選択可能なパネル:", list(sorted(print_selectables)))
-                    i, j = map(int, input("行,列を入力（0-4, 例: 2 3）: ").split())
+                    i, j = map(int, self.myinput("行,列を入力（0-4, 例: 2 3）: ").split())
                     if (i, j) not in selectables:
                         print("そのパネルは取れません")
                         continue
@@ -88,7 +97,7 @@ class Attack25:
                             selectables = self.board.players_panels()
                             print_selectables = [(int(i), int(j)) for i, j in selectables]
                             print("狙い目にできるパネル:", list(sorted(print_selectables)))
-                            i, j = map(int, input("行,列を入力（0-4, 例: 2 3）: ").split())
+                            i, j = map(int, self.myinput("行,列を入力（0-4, 例: 2 3）: ").split())
                             if (i, j) not in selectables:
                                 print("そのパネルは狙い目にできません")
                                 continue
@@ -105,20 +114,5 @@ if __name__ == "__main__":
     savedir = "csvs"
 
     game = Attack25(conf, savedir)
-    game.board.load_state("csvs/at25_55876_23.csv")
+    # game.board.load_state("csvs/at25_55876_23.csv")
     game.main()
-    # csvfile = "init_3x3.csv"
-    # n_players = 2
-    # main(n_players, csvfile)
-
-    # main(4)
-
-#     load_panels = """
-#   0 1 2 3 4
-# 0 . . 2 . .
-# 1 . . 3 . .
-# 2 1 1 1 1 1
-# 3 . . 3 . .
-# 4 . 4 4 4 .
-# """
-#     main(load_panels)
