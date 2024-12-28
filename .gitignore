@@ -1,3 +1,5 @@
 *.pyc
 __pycache__/
 csvs/
+at25.egg-info/
+build/

@@ -1,4 +1,4 @@
-from board.defined_panel import *
+from .defined_panel import *
 import numpy as np
 import itertools as it
 from copy import deepcopy
@@ -132,7 +132,7 @@ class Board:
 
     def set_at_chance(self, i, j):
         self.board[i,j] = CHANCE
-        
+
     def selectable_panels(self, player):
         if player not in self.player_ids:
             print("invalid player:", player)
