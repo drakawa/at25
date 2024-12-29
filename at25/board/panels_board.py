@@ -98,7 +98,10 @@ class Board:
         to_get_panels = list()
         selectable_panels = list()
 
-        directions = it.product((-1,0,1), repeat=2)
+        # directions = it.product((-1,0,1), repeat=2)
+        directions = [(-1,0),(1,0),(0,-1),(0,1),
+                      (-1,-1),(-1,1),(1,-1),(1,1)
+        ]
         for dir_i, dir_j in directions:
             if (dir_i, dir_j) == (0, 0):
                 continue            
