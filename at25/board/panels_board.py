@@ -131,7 +131,23 @@ class Board:
         return self.to_get_select(i, j, player)[0]
 
     def set_at_chance(self, i, j):
-        self.board[i,j] = CHANCE
+        try:
+            if self.board[i, j] in [EMPTY, WALL, FIRST, CHANCE]:
+                raise Exception(f"invalid index ({i}, {j})")
+            self.board[i, j] = CHANCE
+            self.display_board()
+            self.history.append(deepcopy(self.board))
+            np.savetxt(
+                os.path.join(self.savedir, f"at25_{self.game_id}_{len(self.history)}.csv"),
+                self.board,
+                delimiter=",",
+                fmt="%d"
+            )
+            print(f"save to {self.savedir}/at25_{self.game_id}_{len(self.history)}.csv")
+
+        except Exception as inst:
+            print(inst.args)
+            exit(1)
 
     def selectable_panels(self, player):
         if player not in self.player_ids:
