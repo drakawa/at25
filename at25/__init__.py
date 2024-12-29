@@ -6,6 +6,7 @@ __all__ = [
     'WALL',
     'FIRST',
     'CHANCE',
-    'DEALER'
+    'DELETED',
+    'DEALER',
     'Board',
 ]

@@ -1,4 +1,4 @@
-from .defined_panel import EMPTY, WALL, FIRST, CHANCE, EMPTYS, DEALER
+from .defined_panel import EMPTY, WALL, FIRST, CHANCE, EMPTYS, DELETED, DEALER
 from .panels_board import Board
 
 __all__ = [
@@ -7,6 +7,7 @@ __all__ = [
     'FIRST',
     'CHANCE',
     'EMPTYS',
+    'DELETED',
     'DEALER',
     'Board',
     ]

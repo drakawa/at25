@@ -71,7 +71,21 @@ class Attack25:
         i, j = self.panel_idx_to_coord(idx)
         to_get_panel_coords = self.board.flip_panel(i, j, player)
         return [self.coord_to_panel_idx(m, n) for m, n in to_get_panel_coords]
-    
+    def load_state(self, csvfile):
+        self.board.load_state(csvfile)
+    def get_board_panels(self):
+        return list(self.board.board_panels().flatten())
+    def get_player_panels(self, player):
+        tmp_board = self.get_board_panels()
+        tmp_board = np.array(tmp_board)
+        indices = np.where(tmp_board == player)
+        return list(indices[0])
+        pass
+        # [self.coord_to_panel_idx(i, j) for i, j in range(5)]
+    def set_at_chance(self, idx):
+        i, j = self.panel_idx_to_coord(idx)
+        self.board.set_at_chance(i, j)
+
     def myinput(self, message: str):
         res = input(message)
         inputs_path = os.path.join(self.savedir, f"inputs_{self.game_id}.txt")

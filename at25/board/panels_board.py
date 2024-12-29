@@ -205,3 +205,6 @@ class Board:
             for i, j in zip(indices[0], indices[1]):
                 res.append((i, j))
         return res
+
+    def board_panels(self):
+        return self.board
