@@ -99,9 +99,6 @@ class Attack25:
                 continue
             # 入力
             while True:
-                if after_at_chance:
-                    after_at_chance = False
-                    break
                 try:
                     selectables = self.board.selectable_panels(player)
                     print_selectables = [(i, j) for i, j in selectables]
@@ -135,6 +132,9 @@ class Attack25:
                         self.board.set_at_chance(i, j)
                         after_at_chance = True
                         break
+                if after_at_chance:
+                    after_at_chance = False
+                    break
 
 
 if __name__ == "__main__":
@@ -142,5 +142,5 @@ if __name__ == "__main__":
     savedir = "csvs"
 
     game = Attack25(conf, savedir)
-    # game.board.load_state("csvs/at25_55876_23.csv")
+    game.board.load_state("csvs/at25_37618_29.csv")
     game.main()
