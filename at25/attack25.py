@@ -44,6 +44,8 @@ class Attack25:
             print("invalid_shape")
             exit(1)
 
+    def get_game_id(self):
+        return self.game_id
     def get_player_names(self):
         return self.player_names
     def get_player_colors(self):
