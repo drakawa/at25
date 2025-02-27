@@ -3,9 +3,9 @@ import numpy as np
 from copy import deepcopy
 import random
 
-from load_conf import load_conf_yaml
-from board import EMPTY, WALL, FIRST, CHANCE, EMPTYS, DEALER
-from board import Board
+from load_conf.load_yaml import load_conf_yaml
+from board.defined_panel import EMPTY, WALL, FIRST, CHANCE, EMPTYS, DEALER
+from board.panels_board import Board
 
 import os
 
