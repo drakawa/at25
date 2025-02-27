@@ -77,12 +77,12 @@ class Board:
             self.display_board()
             self.history.append(deepcopy(self.board))
             np.savetxt(
-                os.path.join(self.savedir, f"at25_{self.game_id}_{len(self.history)}.csv"),
+                os.path.join(self.savedir, f"at25_{self.game_id:05}_{len(self.history):03}.csv"),
                 self.board,
                 delimiter=",",
                 fmt="%d"
             )
-            print(f"save to {self.savedir}/at25_{self.game_id}_{len(self.history)}.csv")
+            print(f"save to {self.savedir}/at25_{self.game_id:05}_{len(self.history):03}.csv")
 
         except Exception as inst:
             print(inst.args)
@@ -141,12 +141,12 @@ class Board:
             self.display_board()
             self.history.append(deepcopy(self.board))
             np.savetxt(
-                os.path.join(self.savedir, f"at25_{self.game_id}_{len(self.history)}.csv"),
+                os.path.join(self.savedir, f"at25_{self.game_id:05}_{len(self.history):03}.csv"),
                 self.board,
                 delimiter=",",
                 fmt="%d"
             )
-            print(f"save to {self.savedir}/at25_{self.game_id}_{len(self.history)}.csv")
+            print(f"save to {self.savedir}/at25_{self.game_id:05}_{len(self.history):03}.csv")
 
         except Exception as inst:
             print(inst.args)
