@@ -66,6 +66,16 @@ class Board:
             ]
         ))
 
+    def save_history(self):
+        self.history.append(deepcopy(self.board))
+        np.savetxt(
+            os.path.join(self.savedir, f"at25_{self.game_id:05}_{len(self.history):03}.csv"),
+            self.board,
+            delimiter=",",
+            fmt="%d"
+        )
+        print(f"save to {self.savedir}/at25_{self.game_id:05}_{len(self.history):03}.csv")
+
     def update_panel(self, i, j, player):
         if player not in self.player_ids:
             print("invalid player:", player)
@@ -75,14 +85,6 @@ class Board:
                 raise Exception(f"invalid index ({i}, {j})")
             self.board[i, j] = player
             self.display_board()
-            self.history.append(deepcopy(self.board))
-            np.savetxt(
-                os.path.join(self.savedir, f"at25_{self.game_id:05}_{len(self.history):03}.csv"),
-                self.board,
-                delimiter=",",
-                fmt="%d"
-            )
-            print(f"save to {self.savedir}/at25_{self.game_id:05}_{len(self.history):03}.csv")
 
         except Exception as inst:
             print(inst.args)
@@ -139,14 +141,7 @@ class Board:
                 raise Exception(f"invalid index ({i}, {j})")
             self.board[i, j] = CHANCE
             self.display_board()
-            self.history.append(deepcopy(self.board))
-            np.savetxt(
-                os.path.join(self.savedir, f"at25_{self.game_id:05}_{len(self.history):03}.csv"),
-                self.board,
-                delimiter=",",
-                fmt="%d"
-            )
-            print(f"save to {self.savedir}/at25_{self.game_id:05}_{len(self.history):03}.csv")
+            self.save_history()
 
         except Exception as inst:
             print(inst.args)
@@ -214,6 +209,7 @@ class Board:
         print("to_get_panels:", to_get_panels)
         for tmp_i, tmp_j in to_get_panels:
             self.update_panel(tmp_i, tmp_j, player)
+        self.save_history()
 
         return to_get_panels
 
